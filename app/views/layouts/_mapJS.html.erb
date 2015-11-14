@@ -4,7 +4,6 @@
 <script>
     document.onload=geoloc();
     
-	var watchId = null;
 	function geoloc() {
         console.log("asdf");
 	if (navigator.geolocation) {
@@ -13,7 +12,7 @@
 				timeout : Infinity,
 				maximumAge : 0
 		};
-	watchId = navigator.geolocation.watchPosition(showPosition, showError, optn);
+	navigator.geolocation.getCurrentPosition(showPosition, showError, optn);
 	} else {
 			alert('Geolocation is not supported in your browser');
 	}
@@ -31,7 +30,7 @@ function showPosition(position) {
 		var markerOpt = {
 			map : googleMap,
 			position : googlePos,
-			title : 'Hi , I am here',
+			title : 'You are here',
 			animation : google.maps.Animation.DROP
 		};
 		var googleMarker = new google.maps.Marker(markerOpt);
@@ -56,14 +55,6 @@ function showPosition(position) {
 					alert('Geocoder failed due to: ' + status);
 				}
 			});
-			}
-
-			function stopWatch() {
-				if (watchId) {
-					navigator.geolocation.clearWatch(watchId);
-					watchId = null;
-
-				}
 			}
 
 		function showError(error) {
