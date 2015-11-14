@@ -2,6 +2,7 @@
     <%= render partial: "layouts/mapJS" %>
 <% end %>
 
+<!--
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Events</h1>
@@ -27,12 +28,24 @@
 <br>
 
 <%= link_to 'New Event', new_event_path %>
+-->
 
 	<input onclick="clear_all_pins();" type=button value="Hide Markers">
       <input onclick="show_all_pins();" type=button value="Show All Markers">
       <input onclick="delete_pins();" type=button value="Delete Markers">
 
 <div id="map-wrapper">
-    <div id = 'mapdiv'>
+    <div id = 'mapdiv'></div><!-- Id needs to be 'mapdiv' for javascript to work -->
+    
+    <div id="over_map">
+        <% if user_signed_in? %>
+            <div id="logout">
+                <%= link_to 'Logout', destroy_user_session_path, :method=>:delete,class:"btn btn-default"  %>
+            </div>
+        <% else %>
+            <div id="login">
+                <%= link_to 'Login', new_user_session_path,class:"btn btn-default" %>
+            </div>
+        <% end %>
     </div>
 </div>

@@ -3,16 +3,25 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-#mapdiv {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-}
-
 #map-wrapper {
     position:relative;
     height: 100%;
     width: 100%;
+    
+    #mapdiv {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        z-index:0;
+    }
+    #over_map { 
+        position: absolute; 
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        z-index: 99; 
+    }
 }
