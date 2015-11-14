@@ -28,6 +28,7 @@ gem 'devise'                    #authentication
 gem 'cancancan', '~>1.10'       #authorization
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'geocoder'                  #Geo-spatial data manipulation
+gem 'coffee-script-source', '1.8.0'
 
 
 # Use ActiveModel has_secure_password
@@ -42,6 +43,7 @@ gem 'geocoder'                  #Geo-spatial data manipulation
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
