@@ -1,6 +1,3 @@
-require 'geokit'
-include Geokit::Geocoders
-
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
@@ -17,7 +14,7 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = Event.new
+      @event = Event.new
   end
 
   # GET /events/1/edit
@@ -26,8 +23,16 @@ class EventsController < ApplicationController
 
   # POST /events
   # POST /events.json
-  def create
-      @event = Event.new(event_params)
+  def create   
+        #transform address to lat+long
+        address = event_params[:address]
+      event_params.delete(:address)
+        coordinates = GoogleGeocoder.geocode(address)
+        event_params[:latitude] = coordinates.latitude
+        event_params[:longitude] = coordinates.longitude 
+      
+      
+      @event = Event.new(title:event_params[:title],description:event_params[:description], longitude:coordinates.longitude, latitude:coordinates.latitude, person_count_cap:event_params[:person_count_cap],user_id: current_user.id)
     
     respond_to do |format|
       if @event.save
@@ -64,8 +69,6 @@ class EventsController < ApplicationController
     end
   end
 
-    before_filter do
-    end
   private    
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -74,28 +77,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-        @ep ||= params[:event]
-        
-        address = @ep[:address]      
-        coordinates = GoogleGeocoder.geocode(address)
-
-        #modify params for creating event
-        @ep.delete(:address)
-        @ep[:latitude] = coordinates.latitude
-        @ep[:longitude] = coordinates.longitude
-        
-        puts @ep
-        puts @ep
-        puts @ep
-        puts @ep
-        puts @ep
-        puts @ep
-        puts @ep
-        puts @ep
-        puts @ep
-        puts @ep
-        puts @ep
-        
-        return @ep
+        params[:event]
     end
 end

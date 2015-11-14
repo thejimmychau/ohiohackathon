@@ -1,3 +1,7 @@
+require 'geokit'
+include Geokit::Geocoders
+
+
 class Event < ActiveRecord::Base    
     attr_accessor :address      #Model 'method' for getting address. This is simply a reference to a view form field's value
     
@@ -10,4 +14,5 @@ class Event < ActiveRecord::Base
                     :distance_field_name => :distance,
                     :lat_column_name => :latitude,
                     :lng_column_name => :longitude
+    
 end
