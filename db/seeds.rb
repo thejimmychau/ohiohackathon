@@ -9,9 +9,20 @@
 
 User.delete_all
 
-User.create!(
+billy = User.create!(
     email: 'test@test.org',
     first_name:'Billy',
     last_name:'TestUser',
     password: 'password',
     password_confirmation: 'password')
+
+Event.delete_all
+
+Event.create!(
+    title: "test",
+    description: "lots of fun!",
+    person_count_cap:10,
+    user_id:billy.id,
+    latitude: 1.0,
+    longitude:1.9
+    )
