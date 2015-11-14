@@ -83,6 +83,22 @@ function showError(error) {
 	}
 }
 
+//creates event pin based on long and latitude and drops onto map
+//pushes into pin array
+function drop_event_pin(long, lat, event_name)
+{
+	var googlePos = new google.maps.LatLng(lat, long);
+	var markerOpt = {
+			map : googleMap,
+			position : googlePos,
+			title : event_name,
+			animation : google.maps.Animation.DROP
+		};
+	var googleMarker = new google.maps.Marker(markerOpt);
+	pins.push(googleMarker); //push to pins array	
+}
+
+
 //clears all other pins from map, but does not delete them
 function show_only_pin(pin)
 {
