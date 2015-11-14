@@ -27,7 +27,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'                    #authentication
 gem 'cancancan', '~>1.10'       #authorization
 gem 'bootstrap-sass', '~> 3.3.5'
-gem 'geokit'                    #Geo-spatial data manipulation
+
+gem 'geokit'
+gem 'geokit-rails'    #Geo-spatial data manipulation
 gem 'coffee-script-source', '1.8.0'
 
 
