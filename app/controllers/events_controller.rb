@@ -27,22 +27,7 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    #get long, latitude from address
-    address = event_params[:address]      
-    coordinates = MultiGeocoder.geocode(address)
-     
-    #modify params for creating event
-    event_params.delete(:address)
-    event_params[:latitude] = coordinates.latitude
-    event_params[:longitude] = coordinates.longitude
-    puts
-      puts
-      puts
-    puts new_event_params
-      puts
-      puts
-      puts
-    @event = Event.new(new_event_params)
+      @event = Event.new(event_params)
     
     respond_to do |format|
       if @event.save
@@ -79,7 +64,9 @@ class EventsController < ApplicationController
     end
   end
 
-  private
+    before_filter do
+    end
+  private    
     # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
@@ -87,6 +74,28 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params[:event]
+        @ep ||= params[:event]
+        
+        address = @ep[:address]      
+        coordinates = GoogleGeocoder.geocode(address)
+
+        #modify params for creating event
+        @ep.delete(:address)
+        @ep[:latitude] = coordinates.latitude
+        @ep[:longitude] = coordinates.longitude
+        
+        puts @ep
+        puts @ep
+        puts @ep
+        puts @ep
+        puts @ep
+        puts @ep
+        puts @ep
+        puts @ep
+        puts @ep
+        puts @ep
+        puts @ep
+        
+        return @ep
     end
 end
