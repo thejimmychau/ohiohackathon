@@ -6,6 +6,7 @@
     
 var pins = []; //array of all pins
 var googleMap;
+var userPos;
 
 function drop_user_pin()
 {
@@ -18,6 +19,8 @@ function drop_user_pin()
 		};
 	//put position on the map
 	navigator.geolocation.getCurrentPosition(show_user_position, showError, optn);
+	//we have location, redirect the user to url so we can access the long and lat
+
 	} else {
 			alert('Geolocation is not supported in your browser');
 	}
@@ -26,12 +29,13 @@ function drop_user_pin()
 //automatically fed parameter if getCurrentPosition works out
 function show_user_position(position) {
 		var googlePos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		userPos = googlePos;
 		var mapOptions = {
 					zoom : 12,
 					center : googlePos,
 					mapTypeId : google.maps.MapTypeId.ROADMAP
 				};
-				var mapObj = document.getElementById('mapdiv');
+		var mapObj = document.getElementById('mapdiv');
 		googleMap = new google.maps.Map(mapObj, mapOptions);
 		//drop marker
 		var markerOpt = {
@@ -83,6 +87,7 @@ function showError(error) {
 	}
 }
 
+//need to call this to place the pins, call as needed
 //creates event pin based on long and latitude and drops onto map
 //pushes into pin array
 function drop_event_pin(long, lat, event_name)
@@ -94,6 +99,8 @@ function drop_event_pin(long, lat, event_name)
 			title : event_name,
 			animation : google.maps.Animation.DROP
 		};
+	//this adds it to the map as a marker and shows it
+	//to just create it, put the options into the array and then make as needed
 	var googleMarker = new google.maps.Marker(markerOpt);
 	pins.push(googleMarker); //push to pins array	
 }
@@ -129,4 +136,46 @@ function delete_pins() {
 	clear_all_pins();
 	pins = []; //reset array
 }
+
+
+//map movement and adjustment algorithims
+
+//radius sent in as miles
+//display markers within the radius
+/*
+function drop_seeable_events(events, radius)
+{
+	// have events array
+	for(var i = 0; i<events.length; i++)
+	{
+		//get long and lat of each pin on the map (events)
+		var eventLat=events[i].getPosition().lat();
+		var eventLong=events[i].getPosition().lng();
+
+		//LL object from google API
+		var eventPos = new GLatLng(eventLat, eventLong);
+
+		var kmDistance = userPos.distanceFrom(eventPos) / 1000.0;
+
+		var kmRadius = radius * 2.2;		
+
+		if(kmDistance < kmRadius){
+			events[i].setMap(googleMap);
+	}
+}*/
+
+
+//for map view
+function resize_map() {
+
+    var bounds = new google.maps.LatLngBounds();
+    //iterate over pins and extend bounds by the pin
+    for (var i=0; i < pins.length; i++) {
+        bounds.extend(pins[i].getPosition());
+    }
+    googleMap.fitBounds(bounds); //fit the map to the new bounds
+}
+
+
+
 </script>
