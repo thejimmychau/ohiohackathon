@@ -2,31 +2,38 @@
 
 <!-- custom map scripts -->
 <script>
-    document.onload=geoloc();
+    document.onload = drop_user_pin();
     
-	function geoloc() {
-        console.log("asdf");
+var pins = []; //array of all pins
+var googleMap;
+
+function drop_user_pin()
+{
+	//grab position if possible
 	if (navigator.geolocation) {
 		var optn = {
 				enableHighAccuracy : true,
 				timeout : Infinity,
 				maximumAge : 0
 		};
-	navigator.geolocation.getCurrentPosition(showPosition, showError, optn);
+	//put position on the map
+	navigator.geolocation.getCurrentPosition(show_user_position, showError, optn);
 	} else {
 			alert('Geolocation is not supported in your browser');
 	}
-	}
+}
 
-function showPosition(position) {
+//automatically fed parameter if getCurrentPosition works out
+function show_user_position(position) {
 		var googlePos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 		var mapOptions = {
-			zoom : 12,
-			center : googlePos,
-			mapTypeId : google.maps.MapTypeId.ROADMAP
-		};
-		var mapObj = document.getElementById('mapdiv');
-		var googleMap = new google.maps.Map(mapObj, mapOptions);
+					zoom : 12,
+					center : googlePos,
+					mapTypeId : google.maps.MapTypeId.ROADMAP
+				};
+				var mapObj = document.getElementById('mapdiv');
+		googleMap = new google.maps.Map(mapObj, mapOptions);
+		//drop marker
 		var markerOpt = {
 			map : googleMap,
 			position : googlePos,
@@ -34,6 +41,7 @@ function showPosition(position) {
 			animation : google.maps.Animation.DROP
 		};
 		var googleMarker = new google.maps.Marker(markerOpt);
+		pins.push(googleMarker); //push to pins array
 		var geocoder = new google.maps.Geocoder();
 		geocoder.geocode({
 			'latLng' : googlePos
@@ -55,11 +63,11 @@ function showPosition(position) {
 					alert('Geocoder failed due to: ' + status);
 				}
 			});
-			}
+}
 
-		function showError(error) {
-		var err = document.getElementById('mapdiv');
-		switch(error.code) {
+function showError(error) {
+	var err = document.getElementById('mapdiv');
+	switch(error.code) {
 		case error.PERMISSION_DENIED:
 		err.innerHTML = "User denied the request for Geolocation."
 		break;
@@ -72,6 +80,37 @@ function showPosition(position) {
 		case error.UNKNOWN_ERROR:
 		err.innerHTML = "An unknown error occurred."
 		break;
-		}
-		}
+	}
+}
+
+//clears all other pins from map, but does not delete them
+function show_only_pin(pin)
+{
+	for(var i = 0; i< pins.length; i++)
+	{
+		if(!(pins[i] == pin))
+			pins[i].setMap(googleMap);
+		else
+			pins[i].setMap(NULL);
+	}
+}
+
+function show_all_pins()
+{
+	for (var i = 0; i < pins.length; i++) {
+    		pins[i].setMap(googleMap);
+  	}
+}
+
+function clear_all_pins()
+{
+	for (var i = 0; i < pins.length; i++) {
+    		pins[i].setMap(null);
+  	}
+}
+
+function delete_pins() {
+	clear_all_pins();
+	pins = []; //reset array
+}
 </script>
