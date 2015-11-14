@@ -5,15 +5,8 @@ class EventsController < ApplicationController
         lat = params[:latitude]
         lng = params[:longitude]
         
-        puts 
-        puts 
-        puts 
-        puts
-        puts lat
-        puts lng
-        puts
-        #events = Event.within(5,:origin=>[latitude,longitude]) 
-        events = Event.all.as_json
+        events = Event.within(5,:origin=>[lat,lng]) 
+        #events = Event.all.as_json
         
         respond_to do |format|
             format.json { 

@@ -18,11 +18,20 @@ billy = User.create!(
 
 Event.delete_all
 
-Event.create!(
-    title: "test",
+Event.create!( #nearby event, location = Ohio Union
+    title: "test-near",
     description: "lots of fun!",
     person_count_cap:10,
     user_id:billy.id,
-    latitude: 1.0,
-    longitude:1.9
+    latitude: 39.9980611,
+    longitude:-83.00892859999999
+    )
+
+Event.create!( #far away event 
+    title: "test-far",
+    description: "lots of fun!",
+    person_count_cap:10,
+    user_id:billy.id,
+    latitude: 0,
+    longitude:0
     )
