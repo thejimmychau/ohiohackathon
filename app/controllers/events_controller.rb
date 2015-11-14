@@ -1,3 +1,6 @@
+require 'geokit'
+include Geokit::Geocoders
+
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
@@ -24,8 +27,23 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(event_params)
-
+    #get long, latitude from address
+    address = event_params[:address]      
+    coordinates = MultiGeocoder.geocode(address)
+     
+    #modify params for creating event
+    event_params.delete(:address)
+    event_params[:latitude] = coordinates.latitude
+    event_params[:longitude] = coordinates.longitude
+    puts
+      puts
+      puts
+    puts new_event_params
+      puts
+      puts
+      puts
+    @event = Event.new(new_event_params)
+    
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
