@@ -2,7 +2,6 @@
     <%= render partial: "layouts/mapJS" %>
 <% end %>
 
-<!--
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Events</h1>
@@ -28,13 +27,12 @@
 <br>
 
 <%= link_to 'New Event', new_event_path %>
--->
 
-	<input onclick="clear_all_pins();" type=button value="Hide Markers">
-      <input onclick="show_all_pins();" type=button value="Show All Markers">
-      <input onclick="delete_pins();" type=button value="Delete Markers">
+	<input onclick="clearMarkers();" type=button value="Hide Markers">
+      <input onclick="showMarkers();" type=button value="Show All Markers">
+      <input onclick="deleteMarkers();" type=button value="Delete Markers">
 
 <div id="map-wrapper">
-    <div id = 'mapdiv'></div><!-- Id needs to be 'mapdiv' for javascript to work -->
-    
+    <div id = 'mapdiv'>
+    </div>
 </div>
