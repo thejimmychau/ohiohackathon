@@ -2,17 +2,38 @@
     <%= render partial: "layouts/mapJS" %>
 <% end %>
 
-<form id="frm1" action="form_action.asp">
-  Address: <input type="text" name="address"><br>
-  Radius: <input type="number" min="0" step="1" name="radius"><br><br>
-  <select name="tag">
-  	<%= @event_tags.each do |event| %>
-  		<option value=event.tag_name></option>
-  	<% end %>
-  </select>
-  Time: <input type="number" min="0" step="1" name="time"><br><br>
-  <input type="button" onclick="grab_values()" value="Submit">
-</form>
+<div class="filter_button">
+  <button onclick="filter()">Filter Events</button>
+</div>
+
+<div id="filter">
+  <form id="frm1" action="form_action.asp">
+    Address: <input type="text" name="address"><br>
+    Radius: <input type="number" min="0" step="1" name="radius"><br><br>
+    <!-- Tag -->
+    <select name="tag">
+      <option value="">All Tags</option>
+    	<%= @event_tags.each do |event| %>
+    		<option value=<%=event.id%>><%=event.tag_name%></option>
+    	<% end %>
+    </select>
+
+    Time: <input type="number" min="0" step="1" name="time"><br><br>
+    <input type="button" onclick="grab_values()" value="Submit">
+  </form>
+</div>
+
+<script>
+  var bool = false;
+	function filter() {
+	    bool = !bool;
+      if(bool) {
+        document.getElementById("filter").style.visibility = "hidden";
+      } else {
+        document.getElementById("filter").style.visibility = "visible"; 
+      }
+	}
+</script>
 
 <div id="map-wrapper">
     <div id = 'mapdiv'></div><!-- Id needs to be 'mapdiv' for javascript to work -->

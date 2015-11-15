@@ -8,17 +8,17 @@
 
 <div id="filter">
   <form id="frm1" action="form_action.asp">
-    Address: <input type="text" name="address"><br>
-    Radius: <input type="number" min="0" step="1" name="radius"><br><br>
+    Address: <input type="text" id="address"><br>
+    Radius: <input type="number" min="0" step="1" id="radius"><br><br>
     <!-- Tag -->
-    <select name="tag">
+    <select id="tag">
       <option value="">All Tags</option>
     	<%= @event_tags.each do |event| %>
     		<option value=<%=event.id%>><%=event.tag_name%></option>
     	<% end %>
     </select>
 
-    Time: <input type="number" min="0" step="1" name="time"><br><br>
+    Time: <input type="number" min="0" step="1" id="time"><br><br>
     <input type="button" onclick="grab_values()" value="Submit">
   </form>
 </div>
