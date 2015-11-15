@@ -18,7 +18,7 @@ class EventsController < ApplicationController
         
         nearby_events = Event.within(radius,:origin=>[lat,lng])
         events = nearby_events.where("start_time < ? AND end_time > ?", DateTime.now, DateTime.now)#long duration, currently running events. Start is in the past and end is in the future
-        events = nearby_events.where("start_time >= ? AND end_time < ?", DateTime.now, max_event_end_time)# short duration events. End is in the next user defined time period (default is 1 day)  and start is in the future
+        events = events.merge(nearby_events.where("start_time >= ? AND end_time < ?", DateTime.now, max_event_end_time))# short duration events. End is in the next user defined time period (default is 1 day)  and start is in the future
         
         #default=all tags (do not do any tag filtering)
         if(params[:tag] != None and params[:tag]!="")
@@ -39,7 +39,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-      @event_tags = EventTags.all
+      @event_tags = EventTag.all
   end
 
   # GET /events/1
