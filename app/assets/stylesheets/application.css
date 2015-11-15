@@ -22,3 +22,9 @@ html,body{
 #login, #logout{
     background-color: blue;
 }
+
+header{
+    padding:10px;
+    background-color: #ccc;
+    
+}
