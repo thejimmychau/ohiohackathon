@@ -19,6 +19,8 @@
 		<tr>
 			<th>Title</th>
 			<th>Description</th>
+			<th>Start Time</th>
+			<th>End Time</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
@@ -27,6 +29,8 @@
 	<tr>
 		<td><%= event.title %></td>
 		<td><%= event.description %></td>
+		<td><%= event.start_time %></td>
+		<td><%= event.end_time %></td>
 		<td><%= link_to 'Edit', edit_event_path(event) %>
         <%= link_to 'Destroy', event_path(event),
                 method: :delete,
