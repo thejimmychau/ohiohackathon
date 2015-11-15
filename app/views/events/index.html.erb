@@ -8,19 +8,19 @@
 
 <div id="filter">
   <form id="frm1" action="form_action.asp">
-    Origin Address: <input type="text" id="address" class="form-control"><br>
-    Radius: <input type="number" min="0" step="1" id="radius" class="form-control"><br>
+    Origin Address: <input type="text" id="address" class="form-control" onchange="grab_values()"><br>
+    Radius: <input type="number" min="0" step="1" id="radius" class="form-control" onchange="grab_values()"><br>
     <!-- Tag -->
-    <select id="tag" class="form-control">
+    <select id="tag" class="form-control" onchange="grab_values()">
       <option value="">All Tags</option>
     	<%= @event_tags.each do |event| %>
     		<option value=<%=event.id%>><%=event.tag_name%></option>
     	<% end %>
     </select>
 	<br>
-    Time Range: <input type="number" min="0" step="1" id="time" class="form-control"><br>
+    Time Range: <input type="number" min="0" step="1" id="time" class="form-control" onchange="grab_values()"><br>
 		<div id="log"></div>
-    <input type="button" onclick="grab_values()" value="Submit">
+    <!--<input type="button" onclick="grab_values()" value="Submit">-->
   </form>
 </div>
 
