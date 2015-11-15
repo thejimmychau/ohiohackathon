@@ -8,17 +8,18 @@
 
 <div id="filter">
   <form id="frm1" action="form_action.asp">
-    Address: <input type="text" name="address"><br>
-    Radius: <input type="number" min="0" step="1" name="radius"><br><br>
+    Origin Address: <input type="text" id="address" class="form-control" onchange="grab_values()"><br>
+    Radius: <input type="number" min="0" step="1" id="radius" class="form-control" onchange="grab_values()"><br>
     <!-- Tag -->
-    <select name="tag">
+    <select id="tag" class="form-control" onchange="grab_values()">
       <option value="">All Tags</option>
     	<%= @event_tags.each do |event| %>
     		<option value=<%=event.id%>><%=event.tag_name%></option>
     	<% end %>
     </select>
-
-    Time: <input type="number" min="0" step="1" name="time"><br><br>
+	<br>
+    Time Range: <input type="number" min="0" step="1" id="time" class="form-control" onchange="grab_values()"><br>
+		<div id="log"></div>
     <input type="button" onclick="grab_values()" value="Submit">
   </form>
 </div>
@@ -33,6 +34,15 @@
         document.getElementById("filter").style.visibility = "visible"; 
       }
 	}
+
+
+	$( "#time" ).mouseover(function() {
+	  $( "#log" ).append( "<div>Adjust this field to show events ending in X hours.</div>" );
+	})
+	.mouseleave(function() {
+		$( "#log" ).text("");
+	});
+
 </script>
 
 <div id="map-wrapper">
