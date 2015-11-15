@@ -2,6 +2,25 @@
     <%= render partial: "layouts/mapJS" %>
 <% end %>
 
+<form id="frm1" action="form_action.asp">
+  Address: <input type="text" name="address"><br>
+  Radius: <input type="number" min="0" step="1" name="radius"><br><br>
+  <select name="tag">
+  	<%= @event_tags.each do |event| %>
+  		<option value=event></option>
+  	<% end %>
+  </select>
+  Time: <input type="number" min="0" step="1" name="time"><br><br>
+  <input type="button" onclick="myFunction()" value="Submit">
+</form>
+
+<script>
+	function myFunction() {
+	    var x = document.getElementById("btn1").value;
+	    document.getElementById("demo").innerHTML = x;
+	}
+</script>
+
 <div id="map-wrapper">
     <div id = 'mapdiv'></div><!-- Id needs to be 'mapdiv' for javascript to work -->
 </div>
