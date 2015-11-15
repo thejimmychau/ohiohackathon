@@ -136,14 +136,21 @@ function drop_event_pins(events_array)
 			start = start.substring(1) + ' am'; //cutt off the 0
 		else
 		{
-			var real_time = start.substring(0,start.indexOf(':')) - 12;
+			//double digit hours only
+			//make sure that 12 pm is still pm
+			var real_time = start.substring(0,start.indexOf(':'));
+			if(real_time > 12 )
+				real_time = real_time - 12;
+			console.log(real_time)
 			start = real_time + start.substring(2) + ' pm'; //change the hours and keep the rest 
 		}
 		if(end.charAt(0) == '0')
 			end = end.substring(1) + ' am' ; //cutt off the 0
 		else
 		{
-			var real_time = end.substring(0,end.indexOf(':')) - 12;
+			var real_time = end.substring(0,end.indexOf(':'));
+			if(real_time > 12)
+				real_time = real_time -12;
 			end = real_time + end.substring(2) + ' pm'; //change the hours and keep the rest 
 		}
 
