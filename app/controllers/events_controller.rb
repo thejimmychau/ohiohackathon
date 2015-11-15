@@ -3,12 +3,27 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, only: :new
 
     def find_nearby_events
-        lat = params[:latitude]
+        lat = params[:latitude]#these are taken from the machine's location
         lng = params[:longitude]
+        if(params[:address] != None and params[:address] != "") #user defined address
+            coordinates = GoogleGeocoder.geocode(address)
+            lat = coordinates.latitude
+            lng = coordinates.longitude
+        end
         
-	#date time +1  = 1 day advance
-	# all events [now,day from now]
-        events = Event.within(5,:origin=>[lat,lng]).where("end_time < ?", DateTime.now + 1).where("end_time > ?", DateTime.now)
+        radius = (params[:radius] != None and params[:radius] != "") ? params[:radius] : 5#default = 5 miles
+        
+        max_event_end_time = DateTime.now
+        max_event_end_time += (params[:time_range] != None and params[:time_range] != "") ? params[:time_range]/24.0 : 1#default = one day from now
+        
+        nearby_events = Event.within(radius,:origin=>[lat,lng])
+        events = nearby_events.where("start_time < ? AND end_time > ?", DateTime.now, DateTime.now)#long duration, currently running events. Start is in the past and end is in the future
+        events = nearby_events.where("start_time >= ? AND end_time < ?", DateTime.now, max_event_end_time)# short duration events. End is in the next user defined time period (default is 1 day)  and start is in the future
+        
+        #default=all tags (do not do any tag filtering)
+        if(params[:tag] != None and params[:tag]!="")
+            events = events.where("event_tag_id == ?", params[:tag])
+        end
         
         respond_to do |format|
             format.json { 
@@ -24,7 +39,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+      @event_tags = EventTags.all
   end
 
   # GET /events/1
