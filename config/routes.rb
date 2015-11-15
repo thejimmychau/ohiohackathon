@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :events do
         collection do
             get :find_nearby_events
+            get :similar_events
             post :create_attend_relation
         end
     end

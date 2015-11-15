@@ -7,6 +7,7 @@ class UsersController < ApplicationController
 	end
 
 	def show
+        @attended_events = Event.where(id:Attend.where(user_id:current_user.id).pluck(:event_id))
 		@user = User.find(params[:id])
 		@events = Event.where(user_id: params[:id])
 	end

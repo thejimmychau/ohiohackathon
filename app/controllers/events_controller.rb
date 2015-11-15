@@ -3,9 +3,16 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, only: :new
 
     def create_attend_relation
-        Attend.new(user_id:params[:user],event_id:params[:event])
+        Attend.create!(user_id:params[:user],event_id:params[:event])
         
         redirect_to user_url(current_user)
+    end
+    
+    def similar_events
+        created_events = current_user.events
+        attended_events = Attend.where("user_id == ?",current_user.id)
+        
+        
     end
     
     def find_nearby_events
