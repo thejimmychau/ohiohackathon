@@ -5,6 +5,8 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :user_id, null:false #user that created this event (host/planner of event)
       t.integer :event_tag_id, null:false
         
+        t.datetime :start_time,null:false
+        t.datetime :end_time,null:false
       t.string :title, null:false
       t.string :description, null:false
       t.integer :person_count_cap, null:false
