@@ -11,6 +11,7 @@
     Origin Address: <input type="text" id="address" class="form-control" onchange="grab_values()"><br>
     Radius: <input type="number" min="0" step="1" id="radius" class="form-control" onchange="grab_values()"><br>
     <!-- Tag -->
+    Tag:
     <select id="tag" class="form-control" onchange="grab_values()">
       <option value="">All Tags</option>
     	<%= @event_tags.each do |event| %>
