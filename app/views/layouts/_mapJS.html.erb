@@ -6,8 +6,10 @@
     
 var pins = []; //array of all pins
 var googleMap;
-var userPos;
+var userPos; 
+var last_address; //this is only the chosen user address
 var temp;
+//var do_not_center = false; //to prevent recentering after picking new position
 
 function drop_user_pin()
 {
@@ -60,7 +62,8 @@ function find_nearby_events(latitude,longitude,radius,tag,time_range,address){
 function show_user_position(position) {
     //get needed objects
     var googlePos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    userPos = position;
+    userPos = googlePos;
+    initial_pos = position;
     var mapOptions = {
                 zoom : 16,
                 center : googlePos,
@@ -79,7 +82,7 @@ function show_user_position(position) {
 	icon: image
     };
     var googleMarker = new google.maps.Marker(markerOpt);
-    pins.push(googleMarker); //push to pins array
+    pins[0] = googleMarker; //push to pins array
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({
         'latLng' : googlePos
@@ -158,7 +161,7 @@ function drop_event_pins(events_array,pin_pic_url)
 
         var info;
         if(!isRecommendationPin){
-            info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + sTime +'<br>'+ ' Ends: ' + date_end + ' ' + endTime + '<br>'+'</p><br>'+attendBtnHTML(events_array[i])+'</div>';
+            info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + sTime +'<br>'+ ' Ends: ' + date_end + ' ' + endTime + '<br>'+'</p><br>'+attendBtnHTML(events_array[i].id)+'</div>';
         }else{
             info = "We've noticed that your friends like to hang out here, maybe you will too!<br>"+events_array[i].address;
         }
@@ -166,7 +169,7 @@ function drop_event_pins(events_array,pin_pic_url)
 		//info window
 		var infowindow = new google.maps.InfoWindow({
 			content: info,
-            class: "content_wind"
+            		class: "content_wind"
 		});
 		
 		//need to do this way to ensure unique info window for each marker
@@ -211,7 +214,6 @@ function attendBtnHTML(event_id){
         //user is logged in, thus current_user will never be nil. Must check though in order for erb to compile!
         var userHostedEventIds = <%= (current_user!=nil) ? current_user.events.pluck(:id) : [] %>;
         var eventsUserIsAttendingIds = <%= (current_user!=nil) ? Attend.where(user_id:current_user.id).pluck(:event_id) : [] %>;
-
 
         if( userHostedEventIds.indexOf(event_id) > -1 ){
             attend_option = "This is your event";
@@ -311,7 +313,48 @@ function grab_values() {
   
     //deal with tag drop down
     var selected_tag_id = $("#tag").find(":selected").val();
-    find_nearby_events(userPos.coords.latitude,userPos.coords.longitude,radius,selected_tag_id,time,address);
+    find_nearby_events(userPos.lat(),userPos.lng(),radius,selected_tag_id,time,address);
+}
+
+//updates on address field change, address validation done by geocoder in db
+function update_map_center()
+{
+    address = $("#address").val();
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+        'address': address
+    }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            var mapOptions = {
+                zoom: 16,
+                center: results[0].geometry.location,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            userPos = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());; //update user position
+            googleMap = new google.maps.Map(document.getElementById("mapdiv"), mapOptions);
+
+            var image = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|66CD00';
+	    //drop user marker
+	    var markerOpt = {
+		map : googleMap,
+		position : results[0].geometry.location,
+		title : 'You are here now',
+		animation : google.maps.Animation.DROP,
+		icon: image
+	    };
+	    var marker = new google.maps.Marker(markerOpt);
+	       /*var popOpts = {
+		    content : results[1].formatted_address,
+		    position : results[0].geometry.location
+		};
+            var popup = new google.maps.InfoWindow(popOpts);
+            google.maps.event.addListener(googleMarker, 'click', function() {
+            	popup.open(googleMap);
+	    });*/
+	    pins[0] = marker;
+	}
+    	});
+
 }
 
 </script>
