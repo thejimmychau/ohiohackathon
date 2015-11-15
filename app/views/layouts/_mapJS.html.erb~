@@ -29,6 +29,7 @@ function drop_user_pin()
 
 //find nearby from user lat and lng
 function find_nearby_events(latitude,longitude,radius,tag,time_range,address){
+	delete_pins();
     var request = "/events/find_nearby_events?latitude="+latitude+"&longitude="+longitude+"&radius="+radius+"&tag="+tag+"&time_range="+time_range+"&address="+address; //access route of interest
     var aj = $.ajax({
         url: request,
@@ -192,23 +193,27 @@ function show_only_pin(pin)
 	}
 }
 
+//don't do any operations on user pin (pin[0])
 function show_all_pins()
 {
-	for (var i = 0; i < pins.length; i++) {
+	for (var i = 1; i < pins.length; i++) {
     		pins[i].setMap(googleMap);
   	}
 }
 
 function clear_all_pins()
 {
-	for (var i = 0; i < pins.length; i++) {
+	for (var i = 1; i < pins.length; i++) {
     		pins[i].setMap(null);
   	}
 }
 
+//deletes every pin except user
 function delete_pins() {
 	clear_all_pins();
+	var pin_user = pins[0]; //hold the value
 	pins = []; //reset array
+	pins[0] = pin_user; //put back into array
 }
 
 
@@ -259,7 +264,7 @@ function grab_values() {
     var time = document.getElementsByName("time").value;
   
     //deal with tag drop down
-    var options_list = document.getElementByName("tag");
+    var options_list = document.getElementsByName("tag")[0];
     var tag = options_list.options[options_list.selectedIndex].value;
  	
     find_nearby_events(userPos.coords.latitude,userPos.coords.longitude,radius,tag,time,address);
