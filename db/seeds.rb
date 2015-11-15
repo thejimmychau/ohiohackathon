@@ -1,6 +1,5 @@
 require 'geokit'
 include Geokit::Geocoders
-
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -58,7 +57,10 @@ for i in 0..20
         longitude:coordinates.longitude
         )
     events.push(e)
+    sleep(0.5)
 end
+
+
 address = "2430 Northwest blvd"
 coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
 for i in 0..20
@@ -79,7 +81,11 @@ for i in 0..20
         longitude:coordinates.longitude
         )
     events.push(e)
+    
+    sleep(0.5)
 end
+
+
 
 
 for i in 0..20
@@ -103,7 +109,9 @@ for i in 0..20
         longitude:coordinates.longitude
         )
     events.push(e)
+    sleep(0.5)
 end
+
 
 
 
@@ -129,7 +137,9 @@ for i in 0..20
         longitude:coordinates.longitude
         )
     events.push(e)
+    sleep(0.5)
 end
+
 
 
 puts "Adding entertainment tags"
@@ -144,7 +154,7 @@ for i in 0..20
         event_tag_id:eTagId,
         description: "lots of fun!",
         person_count_cap:10,
-        user_id:jane.id, 
+        user_id:billy.id, 
 
         address: address,
         state: "Ohio",
@@ -154,18 +164,16 @@ for i in 0..20
         longitude:coordinates.longitude
         )
     events.push(e)
+    sleep(0.5)
 end
 
 Attend.delete_all
 
-events.each{|event|
-    id = billy.id
-    if(event.user_id == billy.id)
-        id = jane.id
-    end
+jane.events.each{|event|
     
     a = Attend.create!(
-        user_id: id,
+        user_id: billy.id,
         event_id: event.id
         )
     }
+
