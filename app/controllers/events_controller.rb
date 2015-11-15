@@ -2,6 +2,12 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, only: :new
 
+    def create_attend_relation
+        Attend.new(user_id:params[:user],event_id:params[:event])
+        
+        redirect_to user_url(current_user)
+    end
+    
     def find_nearby_events
         
         lat = params[:latitude]#these are taken from the machine's location
@@ -17,7 +23,6 @@ class EventsController < ApplicationController
         
         max_event_end_time = DateTime.now
         max_event_end_time += (params[:time_range] !="undefined" and params[:time_range] != "") ? params[:time_range].to_f/24.0 : 1#default = one day from now
-        
         events = Event.within(radius,:origin=>[lat,lng]).where("(start_time < ? AND end_time > ?) OR (start_time >= ? AND end_time < ?)", DateTime.now, DateTime.now, DateTime.now, max_event_end_time)#first is long duration, currently running events, start is in the past and end is in the future. Next is short duration events, end is in the next user defined time period (default is 1 day)  and start is in the future
         
         

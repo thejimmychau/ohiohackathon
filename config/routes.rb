@@ -3,8 +3,14 @@ Rails.application.routes.draw do
 
   get 'help' => 'help#index'
 
-  get 'events/find_nearby_events' => 'events#find_nearby_events'
-  resources :events
+  #get 'events/find_nearby_events' => 'events#find_nearby_events'
+   # post 'events/create_attend_relation' => 'events#create_attend_relation'
+    resources :events do
+        collection do
+            get :find_nearby_events
+            post :create_attend_relation
+        end
+    end
   devise_for :users, controllers: { registrations: 'users/registrations'  }
   resources :users, :only => [:index, :show, :edit, :update]
   # The priority is based upon order of creation: first created -> highest priority.

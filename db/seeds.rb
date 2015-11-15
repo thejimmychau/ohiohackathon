@@ -26,6 +26,13 @@ billy = User.create!(
     password: 'password',
     password_confirmation: 'password')
 
+jane = User.create!(
+    email: 'test2@test.org',
+    first_name:'Jane',
+    last_name:'TestUser',
+    password: 'password',
+    password_confirmation: 'password')
+
 Event.delete_all
 
 start_addr_num = 2450
@@ -67,7 +74,7 @@ for i in 0..20
         event_tag_id:aTagId,
         description: "lots of fun!",
         person_count_cap:10,
-        user_id:billy.id, 
+        user_id:jane.id, 
 
         address: address,
         state: "Ohio",
@@ -91,7 +98,7 @@ for i in 0..20
         event_tag_id:eTagId,
         description: "lots of fun!",
         person_count_cap:10,
-        user_id:billy.id, 
+        user_id:jane.id, 
 
         address: address,
         state: "Ohio",

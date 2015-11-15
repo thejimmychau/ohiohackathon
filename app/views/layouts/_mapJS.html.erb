@@ -147,7 +147,6 @@ function drop_event_pins(events_array)
 			var real_time = start.substring(0,start.indexOf(':'));
 			if(real_time > 12 )
 				real_time = real_time - 12;
-			console.log(real_time)
 			start = real_time + start.substring(2) + ' PM'; //change the hours and keep the rest 
 		}
 		if(end.charAt(0) == '0')
@@ -161,7 +160,25 @@ function drop_event_pins(events_array)
 		}
 
 		//conent string ready to be placed
-		var info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + start +'<br>'+ ' Ends: ' + date_end + ' ' + end + '<br>'+'</p></div>';
+        var attend_option;
+        if(<%= current_user == nil %>){
+            attend_option = "Please Log-in to attend an event"
+        }else{
+            //user is logged in, thus current_user will never be nil. Must check though in order for erb to compile!
+            var userIds = <%= (current_user!=nil) ? current_user.events.pluck(:id) : [] %>
+
+            if( userIds.indexOf(events_array[i].id) > -1 ){
+                attend_option = "This is your event";
+            }else{
+               var action_url = '<%= create_attend_relation_events_path %>'+'?user='+
+                   <%= (current_user!=nil) ? current_user.id : -1 %>
+                   +'&event='+events_array[i].id;
+
+               attend_option='<form class="button_to" method="post" action='+action_url+'><input type="submit" value="Attend Event" /><input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/></form>';
+
+            }
+        }
+		var info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + start +'<br>'+ ' Ends: ' + date_end + ' ' + end + '<br>'+'</p><br>'+attend_option+'</div>';
 
 		//info window
 		var infowindow = new google.maps.InfoWindow({
@@ -179,8 +196,7 @@ function drop_event_pins(events_array)
 		pins.push(googleMarker); //push to pins array
 	}
 }
-
-
+    
 //clears all other pins from map, but does not delete them
 function show_only_pin(pin)
 {
