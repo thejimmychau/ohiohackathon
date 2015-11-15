@@ -1,0 +1,47 @@
+<% content_for :head do %>
+    <%= render partial: "layouts/mapJS" %>
+<% end %>
+
+<!--
+<p id="notice"><%= notice %></p>
+<h1>Listing Events</h1>
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @events.each do |event| %>
+      <tr>
+        <td><%= link_to 'Show', event %></td>
+        <td><%= link_to 'Edit', edit_event_path(event) %></td>
+        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<%= link_to 'New Event', new_event_path %>
+-->
+<!--
+	<input onclick="clear_all_pins();" type=button value="Hide Markers">
+    <input onclick="show_all_pins();" type=button value="Show All Markers">
+    <input onclick="delete_pins();" type=button value="Delete Markers">
+-->
+<header>
+    <% if user_signed_in? %>
+        <%= link_to 'Logout', destroy_user_session_path, :method=>:delete,class:"btn btn-default"  %>
+    <% else %>
+        <%= link_to 'Login', new_user_session_path, class:"btn btn-default" %>
+    <% end %>
+</header>
+
+<div id="map-wrapper">
+    <div id = 'mapdiv'></div><!-- Id needs to be 'mapdiv' for javascript to work -->
+    
+    <!-- Doesn't work! Clicks are not registered on the map when it has an overlay
+    <div id="over_map">
+    </div>
+    -->
+</div>

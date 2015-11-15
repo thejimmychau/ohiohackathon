@@ -35,3 +35,9 @@ Event.create!( #far away event
     latitude: 0,
     longitude:0
     )
+
+EventTag.create!(tag_name:"Sports")
+EventTag.create!(tag_name:"Academic")
+EventTag.create!(tag_name:"Entertainment")
+EventTag.create!(tag_name:"Promotional")
+EventTag.create!(tag_name:"Casual")
