@@ -20,7 +20,7 @@
 	<br>
     Time Range: <input type="number" min="0" step="1" id="time" class="form-control" onchange="grab_values()"><br>
 		<div id="log"></div>
-    <input type="button" onclick="grab_values()" value="Submit">
+    <!--<input type="button" onclick="grab_values()" value="Submit">-->
   </form>
 </div>
 
