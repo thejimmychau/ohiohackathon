@@ -25,21 +25,18 @@
         z-index: 99; 
     }
 }
-
-.all_events td {
-    border: 1px solid black;
-    padding: 2px;
-}
-
-.all_events td {
-    border: 1px solid black;
-    padding: 2px;
-}
-
-.all_events th {
+.event_display{
+    min-width: 450px;
+    margin:5px;
+    padding:5px;
+    display: inline-block;
+    background-color: gray;
+    color: #b30000;
+    border-radius: 10px;
     text-align: center;
-    border: 1px solid black;
-    padding: 5px;
+    small{
+        color:#780000;
+    }
 }
 
 #filter {

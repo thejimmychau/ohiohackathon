@@ -42,7 +42,7 @@ address = "2440 Northwest blvd"
 coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
 for i in 0..20
     e = Event.create!( #nearby event, location = Ohio Union  
-        title: "test-near",  
+        title: "test-near #{i}",  
         start_time:DateTime.now-3,
         end_time:DateTime.now-3+i/24.0,
         event_tag_id:sTagId,
@@ -63,7 +63,7 @@ address = "2430 Northwest blvd"
 coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
 for i in 0..20
     e = Event.create!( #nearby event, location = Ohio Union  
-        title: "test-near",  
+        title: "test-near #{i+20}",  
         start_time:DateTime.now-3,
         end_time:DateTime.now-3+i/24.0,
         event_tag_id:sTagId,
@@ -87,7 +87,7 @@ for i in 0..20
     address = "#{start_addr_num} Northwest blvd"
     coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
     e = Event.create!( #nearby event, location = Ohio Union  
-        title: "test-near",  
+        title: "test-near#{start_addr_num}",  
         start_time:DateTime.now,
         end_time:DateTime.now+i/24.0,
         event_tag_id:sTagId,
@@ -113,7 +113,7 @@ for i in 0..20
     address = "#{start_addr_num} Northwest blvd"
     coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
     e = Event.create!( #nearby event, location = Ohio Union  
-        title: "test-near",  
+        title: "test-near#{start_addr_num}",  
         start_time:DateTime.now+i/24.0,
         end_time:DateTime.now+(i+2)/24.0,
         event_tag_id:aTagId,
@@ -138,7 +138,7 @@ for i in 0..20
     address = "#{start_addr_num} Northwest blvd"
     coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
     e = Event.create!( #nearby event, location = Ohio Union  
-        title: "test-near",  
+        title: "test-near#{start_addr_num}",  
         start_time:DateTime.now,
         end_time:DateTime.now+i/24.0,
         event_tag_id:eTagId,
@@ -169,4 +169,3 @@ events.each{|event|
         event_id: event.id
         )
     }
-
