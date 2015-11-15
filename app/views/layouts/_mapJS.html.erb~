@@ -28,8 +28,8 @@ function drop_user_pin()
 }
 
 //find nearby from user lat and lng
-function find_nearby_events(latitude,longitude,range,tag,time_range,address){
-    var request = "/events/find_nearby_events?latitude="+latitude+"&longitude="+longitude+"&range="+range+"&tag="+tag+"&time_range="+time_range+"&address="+address; //access route of interest
+function find_nearby_events(latitude,longitude,radius,tag,time_range,address){
+    var request = "/events/find_nearby_events?latitude="+latitude+"&longitude="+longitude+"&radius="+radius+"&tag="+tag+"&time_range="+time_range+"&address="+address; //access route of interest
     var aj = $.ajax({
         url: request,
         type: 'get',
@@ -46,7 +46,7 @@ function find_nearby_events(latitude,longitude,range,tag,time_range,address){
 function show_user_position(position) {
     //get needed objects
     var googlePos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    userPos = googlePos;
+    userPos = position;
     var mapOptions = {
                 zoom : 12,
                 center : googlePos,
@@ -248,6 +248,15 @@ function resize_map() {
         bounds.extend(pins[i].getPosition());
     }
     googleMap.fitBounds(bounds); //fit the map to the new bounds
+}
+
+
+//function to grab input fields and filter pins accordingly
+function grab_values() {
+    var address = document.getElementByName("address").value;
+    var radius = document.getElementByName("radius").value;
+    var time = document.getElementByName("time").value;	
+    find_nearby_events(userPos.coords.latitude,userPos.coords.longitude,radius,tag,time,address){
 }
 
 </script>

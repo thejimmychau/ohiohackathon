@@ -5,7 +5,13 @@
 	  Radius: <input type="number" min="0" step="1" name="radius"><br><br>
 	  
 	  Time: <input type="number" min="0" step="1" name="time"><br><br>
-	  <input type="button" onclick="grab_values()" value="Submit">
+	  <input type="button" onclick="myFunction()" value="Submit">
 	</form>
 
+	<script>
+		function myFunction() {
+		    var x = document.getElementById("btn1").value;
+		    document.getElementById("demo").innerHTML = x;
+		}
+	</script>
 </div>
