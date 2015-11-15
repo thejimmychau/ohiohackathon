@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+    get 'events/find_nearby_events' => 'events#find_nearby_events'
   resources :events
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
