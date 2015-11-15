@@ -169,4 +169,4 @@ events.each{|event|
         event_id: event.id
         )
     }
-}
+
