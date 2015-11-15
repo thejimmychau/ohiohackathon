@@ -125,6 +125,13 @@ function drop_event_pins(events_array)
 		//this adds it to the map as a marker and shows it
 		//to just create it, put the options into the array and then make as needed
 		var googleMarker = new google.maps.Marker(markerOpt);
+		var info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>' + events_array[i].description + '</p></div>';
+		var infowindow = new google.maps.InfoWindow({
+ 			content: info
+  		});
+		googleMarker.addListener('click', function() {
+    			infowindow.open(googleMap, googleMarker);
+  		});
 		pins.push(googleMarker); //push to pins array
 	}	
 }

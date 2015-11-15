@@ -54,7 +54,7 @@ function show_user_position(position) {
     var mapObj = document.getElementById('mapdiv');
     googleMap = new google.maps.Map(mapObj, mapOptions);
     
-    var image = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFB573';
+    var image = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|66CD00';
     //drop user marker
     var markerOpt = {
         map : googleMap,
