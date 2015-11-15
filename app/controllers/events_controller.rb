@@ -72,7 +72,7 @@ class EventsController < ApplicationController
   # POST /events.json
   def create   
         #transform address to lat+long
-        address = event_params[:address]
+      address = "#{event_params[:address]}  #{event_params[:state]}  #{event_params[:city]} #{event_params[:zip_code]}"
         coordinates = GoogleGeocoder.geocode(address)
         #transform datetime_select form field to a datetime object
 
