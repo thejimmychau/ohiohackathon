@@ -1,0 +1,21 @@
+
+
+<div class="event_display">
+    <h3><%= event.title %>
+        <small>
+            <% if(! local_assigns.fetch :user_created_event, true) %>
+            <%= "Created by #{event.user.first_name} #{event.user.last_name}, " %>
+        <% end %>
+        <%= Attend.where(event_id: event.id).count %> Attending
+        </small></h3>
+    <p><%= event.description %></p>
+    <p>Start Time: <%= event.start_time %></p>
+    <p>End Time: <%= event.end_time %></p>
+
+    <% if(local_assigns.fetch :user_created_event, false) %>
+        <%= link_to 'Destroy', event_path(event),
+            method: :delete,
+            data: { confirm: 'Are you sure?' } %>
+        <%= link_to 'Edit', edit_event_path(event) %>
+    <%end%>
+</div>
