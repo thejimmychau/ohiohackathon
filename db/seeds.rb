@@ -6,6 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+EventTag.delete_all
 
 sportTagId = EventTag.create!(tag_name:"Sports").id
 EventTag.create!(tag_name:"Academic")
@@ -26,8 +27,8 @@ Event.delete_all
 
 Event.create!( #nearby event, location = Ohio Union
     title: "test-near",
-    start_time:Time.now,
-    end_time:Time.now+100,
+    start_time:DateTime.now,
+    end_time:DateTime.now+100,
     event_tag_id:sportTagId,
     description: "lots of fun!",
     person_count_cap:10,
@@ -50,8 +51,8 @@ Event.create!( #nearby event, location = Ohio Union
 
 Event.create!( #far away event 
     title: "test-far",
-    start_time:Time.now,
-    end_time:Time.now+100,
+    start_time:DateTime.now,
+    end_time:DateTime.now+10,
     event_tag_id:sportTagId,
     description: "lots of fun!",
     person_count_cap:10,

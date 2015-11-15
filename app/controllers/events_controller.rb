@@ -29,6 +29,7 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
+      @tags = EventTag.all
       @event = Event.new
   end
 
@@ -43,8 +44,29 @@ class EventsController < ApplicationController
         #transform address to lat+long
         address = event_params[:address]
         coordinates = GoogleGeocoder.geocode(address)
+        #transform datetime_select form field to a datetime object
+
+        start_t = DateTime.new(event_params["start_time(1i)"].to_i, 
+                        event_params["start_time(2i)"].to_i,
+                        event_params["start_time(3i)"].to_i,
+                        event_params["start_time(4i)"].to_i,
+                        event_params["start_time(5i)"].to_i)
+        end_t = DateTime.new(event_params["end_time(1i)"].to_i, 
+                        event_params["end_time(2i)"].to_i,
+                        event_params["end_time(3i)"].to_i,
+                        event_params["end_time(4i)"].to_i,
+                        event_params["end_time(5i)"].to_i)
       
-      @event = Event.new(title:event_params[:title],description:event_params[:description], longitude:coordinates.longitude, latitude:coordinates.latitude, person_count_cap:event_params[:person_count_cap],user_id: current_user.id)
+      #MANUALLY add field values to event - using a Hash caused a ton of errors
+      @event = Event.new(title:event_params[:title],
+          description:event_params[:description], 
+          event_tag_id:event_params[:event_tag_id],
+          start_time: start_t,
+          end_time: end_t,
+          longitude:coordinates.longitude, 
+          latitude:coordinates.latitude,
+          person_count_cap:event_params[:person_count_cap],
+          user_id: current_user.id)
     
     respond_to do |format|
       if @event.save
@@ -81,7 +103,7 @@ class EventsController < ApplicationController
     end
   end
 
-  private    
+  private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])

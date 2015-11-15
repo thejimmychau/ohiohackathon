@@ -4,6 +4,8 @@ include Geokit::Geocoders
 class Event < ActiveRecord::Base    
     attr_accessor :address      #Model 'method' for getting address. This is simply a reference to a view form field's value
     validates :title, presence: true, length: { maximum: 50 }
+    #validate :end_time_is_later
+    validates :start_time, :end_time, presence: true
 	validates :description, presence: true, length: { maximum: 50 } 
 	validates :person_count_cap, numericality: { only_integer: true }
     
@@ -17,4 +19,9 @@ class Event < ActiveRecord::Base
                     :lat_column_name => :latitude,
                     :lng_column_name => :longitude
     
+    def end_time_is_later
+        
+        errors.add(:start_time, 'must be earlier than end time') if
+        self.start_time > self.end_time
+    end
 end
