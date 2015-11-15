@@ -99,7 +99,7 @@ for i in 0..20
         state: "Ohio",
         city: "Columbus",
         zip_code:43221,
-        latitude: coordinates.latitude,
+        latitude:coordinates.latitude,
         longitude:coordinates.longitude
         )
     events.push(e)
@@ -125,7 +125,7 @@ for i in 0..20
         state: "Ohio",
         city: "Columbus",
         zip_code:43221,
-        latitude: coordinates.latitude,
+        latitude:coordinates.latitude,
         longitude:coordinates.longitude
         )
     events.push(e)
@@ -150,7 +150,7 @@ for i in 0..20
         state: "Ohio",
         city: "Columbus",
         zip_code:43221,
-        latitude: coordinates.latitude,
+        latitude:coordinates.latitude,
         longitude:coordinates.longitude
         )
     events.push(e)
@@ -168,5 +168,5 @@ events.each{|event|
         user_id: id,
         event_id: event.id
         )
-    
     }
+}
