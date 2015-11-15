@@ -17,6 +17,10 @@ class EventsController < ApplicationController
    end
     end
     
+    def reverse_geocode(lat,lng)
+        
+        return GoogleGeocoder.geocode(address)
+    end
   # GET /events
   # GET /events.json
   def index
@@ -63,8 +67,15 @@ class EventsController < ApplicationController
       @event = Event.new(title:event_params[:title],
           description:event_params[:description], 
           event_tag_id:event_params[:event_tag_id],
+          
+          address:event_params[:address],
+          state:event_params[:state],
+          city:event_params[:city],
+          zip_code:event_params[:zip_code],
+          
           start_time: start_t,
           end_time: end_t,
+          
           longitude:coordinates.longitude, 
           latitude:coordinates.latitude,
           person_count_cap:event_params[:person_count_cap],

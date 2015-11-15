@@ -1,8 +1,8 @@
 require 'geokit'
 include Geokit::Geocoders
 
-class Event < ActiveRecord::Base    
-    attr_accessor :address      #Model 'method' for getting address. This is simply a reference to a view form field's value
+class Event < ActiveRecord::Base 
+    
     validates :title, presence: true, length: { maximum: 50 }
     #validate :end_time_is_later
     validates :start_time, :end_time, presence: true

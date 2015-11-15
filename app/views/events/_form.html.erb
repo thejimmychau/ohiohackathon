@@ -20,7 +20,7 @@
           <%= f.text_field :title, :placeholder => "Event Title", class: 'form-control' %>
 
           <%= f.label :event_tag_id %><br>
-          <%= collection_select(:event, :event_tag_id, @tags, :id, :tag_name) %>
+          <%= collection_select(:event, :event_tag_id, @tags, :id, :tag_name) %><br>
           
           <%= f.label :description %><br>
           <%= f.text_field :description, :placeholder => "Event Description", class: 'form-control' %>
@@ -29,13 +29,23 @@
           <%= f.number_field :person_count_cap, :placeholder => "Maximum Number of Guests", class: 'form-control' %>
           
           <%= f.label :start_time %><br>
-          <%= f.datetime_select :start_time, :placeholder => Time.now, class: 'form-control' %>
+          <%= f.datetime_select :start_time, :placeholder => Time.now, class: 'form-control' %><br>
           
           <%= f.label :end_time %><br>
-          <%= f.datetime_select :end_time, :placeholder => Time.now+100, class: 'form-control' %>
+          <%= f.datetime_select :end_time, :placeholder => Time.now+100, class: 'form-control' %><br>
 
           <%= f.label :address %><br>
           <%= f.text_field :address, :placeholder => "Address", class: 'form-control' %>
+          
+          <%= f.label :zip_code %><br>
+          <%= f.number_field :zip_code, class: 'form-control' %>
+          
+          <%= f.label :city %><br>
+          <%= f.text_field :city, class: 'form-control' %>
+          
+          <%= f.label :state %><br>
+          <%= f.text_field :state, class: 'form-control' %>
+
 
         <%= f.submit "Submit", class: "btn btn-primary" %>
     <% end %>
