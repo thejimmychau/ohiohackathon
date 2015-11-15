@@ -9,11 +9,11 @@ class EventsController < ApplicationController
     end
     
     def similar_events
-        events = current_user.events #events user created and have finished in past
-        events = events.where("end_time < ?",DateTime.now)
+        events = Event.where("user_id == ? AND end_time < ?",current_user.id,DateTime.now)#events user created and have finished in past
         
         friends = Attend.where(event_id: events.pluck(:id))#people that attended events user hosted
         sim_events = Event.where(user_id:friends.pluck(:user_id))#events that friends hosted
+        #sim_events.increment(:latitude,0.00001)#move to the right a little so it is non blocking on current ones
         
         respond_to do |format|
             format.json { 

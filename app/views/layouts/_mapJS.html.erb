@@ -160,12 +160,13 @@ function drop_event_pins(events_array,pin_pic_url)
         if(!isRecommendationPin){
             info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + sTime +'<br>'+ ' Ends: ' + date_end + ' ' + endTime + '<br>'+'</p><br>'+attendBtnHTML(events_array[i])+'</div>';
         }else{
-            info = "Recommended spot based upon your patterns and the patterns of the people you host!"
+            info = "Recommended spot based upon your patterns and the patterns of the people you host!<br>"+events_array[i].address;
         }
 
 		//info window
 		var infowindow = new google.maps.InfoWindow({
-			content: info
+			content: info,
+            class: "content_wind"
 		});
 		
 		//need to do this way to ensure unique info window for each marker

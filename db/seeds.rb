@@ -37,6 +37,51 @@ Event.delete_all
 events = []
 start_addr_num = 2450
 puts "Adding sports tags"
+
+address = "2440 Northwest blvd"
+coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
+for i in 0..20
+    e = Event.create!( #nearby event, location = Ohio Union  
+        title: "test-near",  
+        start_time:DateTime.now-3,
+        end_time:DateTime.now-3+i/24.0,
+        event_tag_id:sTagId,
+        description: "lots of fun!",
+        person_count_cap:10,
+        user_id:jane.id, 
+
+        address: address,
+        state: "Ohio",
+        city: "Columbus",
+        zip_code:43221,
+        latitude: coordinates.latitude,
+        longitude:coordinates.longitude
+        )
+    events.push(e)
+end
+address = "2430 Northwest blvd"
+coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
+for i in 0..20
+    e = Event.create!( #nearby event, location = Ohio Union  
+        title: "test-near",  
+        start_time:DateTime.now-3,
+        end_time:DateTime.now-3+i/24.0,
+        event_tag_id:sTagId,
+        description: "lots of fun!",
+        person_count_cap:10,
+        user_id:billy.id, 
+
+        address: address,
+        state: "Ohio",
+        city: "Columbus",
+        zip_code:43221,
+        latitude: coordinates.latitude,
+        longitude:coordinates.longitude
+        )
+    events.push(e)
+end
+
+
 for i in 0..20
     start_addr_num+=1
     address = "#{start_addr_num} Northwest blvd"
