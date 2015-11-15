@@ -17,6 +17,7 @@
 html,body{
     min-height: 100%;
     height:100%;
+    font-family: Helvetica, sans-serif;
 }
 
 #login, #logout{
@@ -38,6 +39,16 @@ body {
 	padding-top: 50px;
 }
 
+/*About Page*/
+.about h2 {
+	text-align: center;
+}
+
+.about {
+	background-image: ;
+}
+
+/*Navbar*/
 .navbar-custom {
 	background-color: #b30000;
 }

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get '/about' => 'pages#index'
+
   get 'settings' => 'settings#index'
 
   get 'help' => 'help#index'
