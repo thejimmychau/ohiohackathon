@@ -1,3 +1,6 @@
+require 'geokit'
+include Geokit::Geocoders
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -8,9 +11,9 @@
 
 EventTag.delete_all
 
-sportTagId = EventTag.create!(tag_name:"Sports").id
-EventTag.create!(tag_name:"Academic")
-EventTag.create!(tag_name:"Entertainment")
+sTagId = EventTag.create!(tag_name:"Sports").id
+aTagId = EventTag.create!(tag_name:"Academic").id
+eTagId = EventTag.create!(tag_name:"Entertainment").id
 EventTag.create!(tag_name:"Promotional")
 EventTag.create!(tag_name:"Casual")
 
@@ -25,48 +28,76 @@ billy = User.create!(
 
 Event.delete_all
 
-Event.create!( #nearby event, location = Ohio Union  
-    title: "test-near",  
-    start_time:DateTime.now,
-    end_time:DateTime.now+100,
-    event_tag_id:sportTagId,
-    description: "lots of fun!",
-    person_count_cap:10,
-    user_id:billy.id, 
-    
-    :address => "Ohio Union",
-    state: "Ohio",
-    city: "Columbus",
-    zip_code:43210,
-    latitude: 39.9980611,
-    longitude:-83.00892859999999
-    )
+start_addr_num = 2450
 
- Event.create!( #nearby event, location = Ohio Union  
-   title: "test-2",     
-     start_time:Time.now,     
-     end_time:Time.now+10000000,     
-     event_tag_id:sportTagId,     
-     description: "extremely fun!",     
-     person_count_cap:10,     
-     user_id:billy.id,          
-     address:"Ohio Union",     
-     state:"Ohio",     
-     city:"Columbus",     
-     zip_code:43210,     
-     latitude: 40.0017,     
-     longitude:-83.0197     )  
+puts "Adding sports tags"
+for i in 0..20
+    start_addr_num+=1
+    address = "#{start_addr_num} Northwest blvd"
+    coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
+    Event.create!( #nearby event, location = Ohio Union  
+        title: "test-near",  
+        start_time:DateTime.now,
+        end_time:DateTime.now+i/24.0,
+        event_tag_id:sTagId,
+        description: "lots of fun!",
+        person_count_cap:10,
+        user_id:billy.id, 
 
-Event.create!( #far away event      
-    title: "test-far",     
-    start_time:DateTime.now,     
-    end_time:DateTime.now+10,     
-    event_tag_id:sportTagId,     
-    description: "lots of fun!",     
-    person_count_cap:10,     
-    user_id:billy.id,          
-    address:"5839 Westheimer Rd",     
-    state:"Texas",     
-    city:"Houston",     
-    latitude: 29.737939,     
-    longitude: -95.482203     ) 
+        address: address,
+        state: "Ohio",
+        city: "Columbus",
+        zip_code:43221,
+        latitude: coordinates.latitude,
+        longitude:coordinates.longitude
+        )
+end
+
+
+
+puts "Adding academic tags"
+for i in 0..20
+    start_addr_num+=1
+    address = "#{start_addr_num} Northwest blvd"
+    coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
+    Event.create!( #nearby event, location = Ohio Union  
+        title: "test-near",  
+        start_time:DateTime.now+i/24.0,
+        end_time:DateTime.now+(i+2)/24.0,
+        event_tag_id:aTagId,
+        description: "lots of fun!",
+        person_count_cap:10,
+        user_id:billy.id, 
+
+        address: address,
+        state: "Ohio",
+        city: "Columbus",
+        zip_code:43221,
+        latitude: coordinates.latitude,
+        longitude:coordinates.longitude
+        )
+end
+
+
+puts "Adding entertainment tags"
+for i in 0..20
+    start_addr_num+=1
+    address = "#{start_addr_num} Northwest blvd"
+    coordinates = GoogleGeocoder.geocode(address+" Columbus Ohio 43221")
+    Event.create!( #nearby event, location = Ohio Union  
+        title: "test-near",  
+        start_time:DateTime.now,
+        end_time:DateTime.now+i/24.0,
+        event_tag_id:eTagId,
+        description: "lots of fun!",
+        person_count_cap:10,
+        user_id:billy.id, 
+
+        address: address,
+        state: "Ohio",
+        city: "Columbus",
+        zip_code:43221,
+        latitude: coordinates.latitude,
+        longitude:coordinates.longitude
+        )
+end
