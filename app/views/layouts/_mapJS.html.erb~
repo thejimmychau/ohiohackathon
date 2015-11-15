@@ -176,6 +176,4 @@ function resize_map() {
     googleMap.fitBounds(bounds); //fit the map to the new bounds
 }
 
-
-
 </script>
