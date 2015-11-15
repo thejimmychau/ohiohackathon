@@ -9,6 +9,9 @@
   <%= @user.email %>
 </p>
 
+<%= link_to "Edit", edit_user_path(current_user), :type => "button", :class => "btn btn-success", :method => :get %>
+<%= link_to "Delete", user_path(current_user), :class => "btn btn-default", :method => :delete, :data => { :confirm => 'Are you sure?' } %>
+
 <h3>Your Events</h3>
 <!-- Add all events user has created here -->
 <table class="all_events">
@@ -16,7 +19,7 @@
 		<tr>
 			<th>Title</th>
 			<th>Description</th>
-			<th>Action</th>
+			<th>Actions</th>
 		</tr>
 	</thead>
 
