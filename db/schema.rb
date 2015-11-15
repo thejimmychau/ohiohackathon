@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20151115012355) do
   create_table "events", force: :cascade do |t|
     t.integer  "user_id",                                    null: false
     t.integer  "event_tag_id",                               null: false
+    t.datetime "start_time",                                 null: false
+    t.datetime "end_time",                                   null: false
     t.string   "title",                                      null: false
     t.string   "description",                                null: false
     t.integer  "person_count_cap",                           null: false

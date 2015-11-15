@@ -37,10 +37,10 @@ Event.create!( #nearby event, location = Ohio Union
     )
 
 Event.create!( #nearby event, location = Ohio Union
-    title: "test-2",
+    title: "test-near",
     start_time:Time.now,
     end_time:Time.now+10000000,
-    event_tag_id:20,
+    event_tag_id:sportTagId,
     description: "extremely fun!",
     person_count_cap:10,
     user_id:20,
