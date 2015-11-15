@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user!, except: :show
+  before_filter :authenticate_user!, except: [:show, :index]
 
     def find_nearby_events
         lat = params[:latitude]
