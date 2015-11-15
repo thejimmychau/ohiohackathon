@@ -168,5 +168,5 @@ events.each{|event|
         user_id: id,
         event_id: event.id
         )
-    
     }
+}
