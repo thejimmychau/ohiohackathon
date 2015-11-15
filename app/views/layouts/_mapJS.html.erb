@@ -28,8 +28,8 @@ function drop_user_pin()
 }
 
 //find nearby from user lat and lng
-function find_nearby_events(latitude,longitude){
-    var request = "/events/find_nearby_events?latitude="+latitude+"&longitude="+longitude; //access route of interest
+function find_nearby_events(latitude,longitude,range,tag,time_range,address){
+    var request = "/events/find_nearby_events?latitude="+latitude+"&longitude="+longitude+"&range="+range+"&tag="+tag+"&time_range="+time_range+"&address="+address; //access route of interest
     var aj = $.ajax({
         url: request,
         type: 'get',
@@ -127,13 +127,18 @@ function drop_event_pins(events_array)
 		//to just create it, put the options into the array and then make as needed
 		var googleMarker = new google.maps.Marker(markerOpt);
 
+		//grab date information
+		var date_start = events_array[i].start_time.substring(0,events_array[i].start_time.indexOf('T'));
+		var date_end = events_array[i].end_time.substring(0,events_array[i].start_time.indexOf('T'));
+
+		//grabbing times from strings
 		//cut off strings and only include between the T and the end of the minutes 
 		//-3 cuts off the :SS section of the time string
 		var start = events_array[i].start_time.substring(events_array[i].start_time.indexOf('T')+1,events_array[i].start_time.indexOf('.')-3);
 		var end = events_array[i].end_time.substring(events_array[i].end_time.indexOf('T')+1,events_array[i].end_time.indexOf('.')-3);
 	
 		if(start.charAt(0) == '0')
-			start = start.substring(1) + ' am'; //cutt off the 0
+			start = start.substring(1) + ' AM'; //cutt off the 0
 		else
 		{
 			//double digit hours only
@@ -142,20 +147,20 @@ function drop_event_pins(events_array)
 			if(real_time > 12 )
 				real_time = real_time - 12;
 			console.log(real_time)
-			start = real_time + start.substring(2) + ' pm'; //change the hours and keep the rest 
+			start = real_time + start.substring(2) + ' PM'; //change the hours and keep the rest 
 		}
 		if(end.charAt(0) == '0')
-			end = end.substring(1) + ' am' ; //cutt off the 0
+			end = end.substring(1) + ' AM' ; //cutt off the 0
 		else
 		{
 			var real_time = end.substring(0,end.indexOf(':'));
 			if(real_time > 12)
 				real_time = real_time -12;
-			end = real_time + end.substring(2) + ' pm'; //change the hours and keep the rest 
+			end = real_time + end.substring(2) + ' PM'; //change the hours and keep the rest 
 		}
 
 		//conent string ready to be placed
-		var info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>' + events_array[i].description + '<br>' + ' Starts: ' + start + ' Ends: ' + end + '</p></div>';
+		var info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + start +'<br>'+ ' Ends: ' + date_end + ' ' + end + '<br>'+'</p></div>';
 
 		//info window
 		var infowindow = new google.maps.InfoWindow({
@@ -172,7 +177,6 @@ function drop_event_pins(events_array)
 
 		pins.push(googleMarker); //push to pins array
 	}
-	temp = pins;	
 }
 
 
