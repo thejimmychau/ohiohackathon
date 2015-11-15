@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'settings' => 'settings#index'
+
+  get 'help' => 'help#index'
+
     get 'events/find_nearby_events' => 'events#find_nearby_events'
   resources :events
   devise_for :users
