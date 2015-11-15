@@ -9,11 +9,10 @@ class EventsController < ApplicationController
     end
     
     def similar_events
-        events = current_user.events #created events
-        events < Event.where(id:Attend.where(user_id:current_user.id).pluck(:event_id)) #attended events
+        events = current_user.events #events user created
         
-        similar_users = Event.where(id:events.pluck(:id) ).pluck(:user_id)
-        sim_events = Event.where(id:Attend.where(user_id:similar_users).pluck(:event_id))
+        friends = Event.where(id:events.pluck(:id) ).pluck(:user_id)#people that attended events user hosted
+        sim_events = Event.where(user_id:friends.pluck(:id))#events that friends hosted
         
         return sim_events
     end
