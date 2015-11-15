@@ -9,9 +9,29 @@
 
 User.delete_all
 
-User.create!(
+billy = User.create!(
     email: 'test@test.org',
     first_name:'Billy',
     last_name:'TestUser',
     password: 'password',
     password_confirmation: 'password')
+
+Event.delete_all
+
+Event.create!( #nearby event, location = Ohio Union
+    title: "test-near",
+    description: "lots of fun!",
+    person_count_cap:10,
+    user_id:billy.id,
+    latitude: 39.9980611,
+    longitude:-83.00892859999999
+    )
+
+Event.create!( #far away event 
+    title: "test-far",
+    description: "lots of fun!",
+    person_count_cap:10,
+    user_id:billy.id,
+    latitude: 0,
+    longitude:0
+    )

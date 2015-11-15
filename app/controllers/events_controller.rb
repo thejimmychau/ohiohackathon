@@ -2,6 +2,19 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, except: :show
 
+    def find_nearby_events
+        lat = params[:latitude]
+        lng = params[:longitude]
+        
+        events = Event.within(5,:origin=>[lat,lng])
+        
+        respond_to do |format|
+            format.json { 
+                render json: events
+            } 
+   end
+    end
+    
   # GET /events
   # GET /events.json
   def index
@@ -29,11 +42,7 @@ class EventsController < ApplicationController
   def create   
         #transform address to lat+long
         address = event_params[:address]
-      event_params.delete(:address)
         coordinates = GoogleGeocoder.geocode(address)
-        event_params[:latitude] = coordinates.latitude
-        event_params[:longitude] = coordinates.longitude 
-      
       
       @event = Event.new(title:event_params[:title],description:event_params[:description], longitude:coordinates.longitude, latitude:coordinates.latitude, person_count_cap:event_params[:person_count_cap],user_id: current_user.id)
     
