@@ -161,7 +161,7 @@ function drop_event_pins(events_array,pin_pic_url)
 
         var info;
         if(!isRecommendationPin){
-            info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + sTime +'<br>'+ ' Ends: ' + date_end + ' ' + endTime + '<br>'+'</p><br>'+attendBtnHTML(events_array[i])+'</div>';
+            info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + sTime +'<br>'+ ' Ends: ' + date_end + ' ' + endTime + '<br>'+'</p><br>'+attendBtnHTML(events_array[i].id)+'</div>';
         }else{
             info = "We've noticed that your friends like to hang out here, maybe you will too!<br>"+events_array[i].address;
         }
@@ -214,7 +214,6 @@ function attendBtnHTML(event_id){
         //user is logged in, thus current_user will never be nil. Must check though in order for erb to compile!
         var userHostedEventIds = <%= (current_user!=nil) ? current_user.events.pluck(:id) : [] %>;
         var eventsUserIsAttendingIds = <%= (current_user!=nil) ? Attend.where(user_id:current_user.id).pluck(:event_id) : [] %>;
-
 
         if( userHostedEventIds.indexOf(event_id) > -1 ){
             attend_option = "This is your event";
