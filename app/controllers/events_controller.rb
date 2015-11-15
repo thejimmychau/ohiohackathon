@@ -5,21 +5,23 @@ class EventsController < ApplicationController
     def find_nearby_events
         lat = params[:latitude]#these are taken from the machine's location
         lng = params[:longitude]
-        if(params[:address] != nil and params[:address] != "") #user defined address
+        
+        if(params[:address] != "undefined" and params[:address] != "") #user defined address
             coordinates = GoogleGeocoder.geocode(address)
             lat = coordinates.latitude
             lng = coordinates.longitude
         end
         
-        radius = (params[:radius] != nil and params[:radius] != "") ? params[:radius] : 5#default = 5 miles
+        radius = (params[:radius] !="undefined" and params[:radius] != "") ? params[:radius] : 5#default = 5 miles
         
         max_event_end_time = DateTime.now
-        max_event_end_time += (params[:time_range] != nil and params[:time_range] != "") ? params[:time_range]/24.0 : 1#default = one day from now
+        max_event_end_time += (params[:time_range] !="undefined" and params[:time_range] != "") ? params[:time_range]/24.0 : 1#default = one day from now
         
         events = Event.within(radius,:origin=>[lat,lng]).where("(start_time < ? AND end_time > ?) OR (start_time >= ? AND end_time < ?)", DateTime.now, DateTime.now, DateTime.now, max_event_end_time)#first is long duration, currently running events, start is in the past and end is in the future. Next is short duration events, end is in the next user defined time period (default is 1 day)  and start is in the future
         
+        
         #default=all tags (do not do any tag filtering)
-        if(params[:tag] != nil and params[:tag]!="")
+        if(params[:tag] !="undefined" and params[:tag]!="")
             events = events.where("event_tag_id == ?", params[:tag])
         end
         
@@ -27,13 +29,9 @@ class EventsController < ApplicationController
             format.json { 
                 render json: events
             } 
-   end
+        end
     end
     
-    def reverse_geocode(lat,lng)
-        
-        return GoogleGeocoder.geocode(address)
-    end
   # GET /events
   # GET /events.json
   def index
