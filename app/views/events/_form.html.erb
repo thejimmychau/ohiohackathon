@@ -19,6 +19,9 @@
           <%= f.label :title %><br>
           <%= f.text_field :title, :placeholder => "Event Title", class: 'form-control' %>
 
+          <%= f.label :event_tag_id %><br>
+          <%= collection_select(:event, :event_tag_id, @tags, :id, :tag_name) %>
+          
           <%= f.label :description %><br>
           <%= f.text_field :description, :placeholder => "Event Description", class: 'form-control' %>
 
@@ -26,10 +29,10 @@
           <%= f.number_field :person_count_cap, :placeholder => "Maximum Number of Guests", class: 'form-control' %>
           
           <%= f.label :start_time %><br>
-          <%= f.number_field :start_time, :placeholder => "Maximum Number of Guests", class: 'form-control' %>
+          <%= f.datetime_select :start_time, :placeholder => Time.now, class: 'form-control' %>
           
           <%= f.label :end_time %><br>
-          <%= f.number_field :end_time, :placeholder => "Maximum Number of Guests", class: 'form-control' %>
+          <%= f.datetime_select :end_time, :placeholder => Time.now+100, class: 'form-control' %>
 
           <%= f.label :address %><br>
           <%= f.text_field :address, :placeholder => "Address", class: 'form-control' %>
