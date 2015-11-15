@@ -26,9 +26,7 @@
 <!-- Add all events user has created here -->
 <div class="all_events">
     <% @future_attended_events.each do |event| %>
-        <% @events.each do |event| %>
-<%= render partial: "layouts/event", locals: {event: event, user_created_event:false} %>
-        <% end %>
+        <%= render partial: "layouts/event", locals: {event: event, user_created_event:false} %>
     <% end %>
 </div>
 
@@ -38,7 +36,7 @@
 <div class="all_events">
 
 	<% @past_events.each do |event| %>
-    <%= render partial: "layouts/event", locals: {event: event,user_created_event:true} %>
+        <%= render partial: "layouts/event", locals: {event: event,user_created_event:true} %>
     <% end %>
 </div>
 
@@ -46,8 +44,6 @@
 <!-- Add all events user has created here -->
 <div class="all_events">
     <% @past_attended_events.each do |event| %>
-        <% @events.each do |event| %>
-<%= render partial: "layouts/event", locals: {event: event, user_created_event:false} %>
-        <% end %>
+        <%= render partial: "layouts/event", locals: {event: event, user_created_event:false} %>
     <% end %>
 </div>
