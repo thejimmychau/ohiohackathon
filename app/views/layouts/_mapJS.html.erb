@@ -259,7 +259,7 @@ function grab_values() {
     var time = document.getElementsByName("time").value;
   
     //deal with tag drop down
-    var options_list = document.getElementsByName("tag");
+    var options_list = document.getElementsByName("tag")[0];
     var tag = options_list.options[options_list.selectedIndex].value;
  	
     find_nearby_events(userPos.coords.latitude,userPos.coords.longitude,radius,tag,time,address);
