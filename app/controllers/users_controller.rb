@@ -8,6 +8,7 @@ class UsersController < ApplicationController
 
 	def show
 		@user = User.find(params[:id])
+        @attended_events = Event.where(id:Attend.where(user_id:@user.id).pluck(:event_id))
 		@events = Event.where(user_id: params[:id])
 	end
 

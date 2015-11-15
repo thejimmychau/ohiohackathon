@@ -2,12 +2,33 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, only: :new
 
+    def create_attend_relation
+        Attend.create!(user_id:params[:user],event_id:params[:event])
+        
+        redirect_to user_url(current_user)
+    end
+    
+    def similar_events
+        events = Event.where("user_id == ? AND end_time < ?",current_user.id,DateTime.now)#events user created and have finished in past
+        
+        friends = Attend.where(event_id: events.pluck(:id))#people that attended events user hosted
+        sim_events = Event.where(user_id:friends.pluck(:user_id))#events that friends hosted
+        #sim_events.increment(:latitude,0.00001)#move to the right a little so it is non blocking on current ones
+        
+        respond_to do |format|
+            format.json { 
+                render json: sim_events
+            } 
+        end
+    end
+    
     def find_nearby_events
+        
         lat = params[:latitude]#these are taken from the machine's location
         lng = params[:longitude]
         
         if(params[:address] != "undefined" and params[:address] != "") #user defined address
-            coordinates = GoogleGeocoder.geocode(address)
+            coordinates = GoogleGeocoder.geocode(params[:address])
             lat = coordinates.latitude
             lng = coordinates.longitude
         end
@@ -15,8 +36,7 @@ class EventsController < ApplicationController
         radius = (params[:radius] !="undefined" and params[:radius] != "") ? params[:radius] : 5#default = 5 miles
         
         max_event_end_time = DateTime.now
-        max_event_end_time += (params[:time_range] !="undefined" and params[:time_range] != "") ? params[:time_range]/24.0 : 1#default = one day from now
-        
+        max_event_end_time += (params[:time_range] !="undefined" and params[:time_range] != "") ? params[:time_range].to_f/24.0 : 1#default = one day from now
         events = Event.within(radius,:origin=>[lat,lng]).where("(start_time < ? AND end_time > ?) OR (start_time >= ? AND end_time < ?)", DateTime.now, DateTime.now, DateTime.now, max_event_end_time)#first is long duration, currently running events, start is in the past and end is in the future. Next is short duration events, end is in the next user defined time period (default is 1 day)  and start is in the future
         
         
@@ -59,7 +79,7 @@ class EventsController < ApplicationController
   # POST /events.json
   def create   
         #transform address to lat+long
-        address = event_params[:address]
+      address = "#{event_params[:address]}  #{event_params[:state]}  #{event_params[:city]} #{event_params[:zip_code]}"
         coordinates = GoogleGeocoder.geocode(address)
         #transform datetime_select form field to a datetime object
 
