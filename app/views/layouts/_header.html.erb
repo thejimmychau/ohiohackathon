@@ -14,9 +14,6 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-1">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
-          <li>
-            <a href="#">Notifications</a>
-          </li>
           <li><%= link_to "Create New Event", new_event_path %></li>
           <li>
             <%= link_to "Help", help_path %>
