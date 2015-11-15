@@ -8,8 +8,11 @@ class UsersController < ApplicationController
 
 	def show
 		@user = User.find(params[:id])
-        @attended_events = Event.where(id:Attend.where(user_id:@user.id).pluck(:event_id)).order(start_time: :desc)
-        @events = Event.where(user_id: params[:id]).order(start_time: :desc)
+        @future_attended_events = Event.where(id: Attend.where(user_id:@user.id).pluck(:event_id)).order(start_time: :desc).where("end_time >= ?",DateTime.now)
+        @future_events = Event.where(user_id: @user.id).order(start_time: :desc).where("end_time >= ?",DateTime.now)
+        
+        @past_attended_events = Event.where(id: Attend.where(user_id:@user.id).pluck(:event_id)).order(start_time: :desc).where("end_time < ?",DateTime.now)
+        @past_events = Event.where(user_id: @user.id).order(start_time: :desc).where("end_time < ?",DateTime.now)
 	end
 
 	def new

@@ -13,7 +13,7 @@ class EventsController < ApplicationController
         
         friends = Attend.where(event_id: events.pluck(:id))#people that attended events user hosted
         sim_events = Event.where(user_id:friends.pluck(:user_id))#events that friends hosted
-        #sim_events.increment(:latitude,0.00001)#move to the right a little so it is non blocking on current ones
+        #sim_events.increment(:latitude,0.00001)    #move to the right a little so new pins are non blocking on current pin
         
         respond_to do |format|
             format.json { 

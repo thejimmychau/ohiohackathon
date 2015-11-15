@@ -6,6 +6,7 @@ class Event < ActiveRecord::Base
     validates :title, presence: true, length: { maximum: 50 }
     #validate :end_time_is_later
     validates :start_time, :end_time, presence: true
+    validate :geocode_validish
 	validates :description, presence: true, length: { maximum: 50 } 
 	validates :person_count_cap, numericality: { only_integer: true }
     

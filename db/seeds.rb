@@ -169,10 +169,11 @@ end
 
 Attend.delete_all
 
-jane.events.each{|event|
+#jane has attended every one of billy's events
+billy.events.each{|event|
     
     a = Attend.create!(
-        user_id: billy.id,
+        user_id: jane.id,
         event_id: event.id
         )
     }
