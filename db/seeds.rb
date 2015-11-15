@@ -7,6 +7,12 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
+sportTagId = EventTag.create!(tag_name:"Sports").id
+EventTag.create!(tag_name:"Academic")
+EventTag.create!(tag_name:"Entertainment")
+EventTag.create!(tag_name:"Promotional")
+EventTag.create!(tag_name:"Casual")
+
 User.delete_all
 
 billy = User.create!(
@@ -20,6 +26,9 @@ Event.delete_all
 
 Event.create!( #nearby event, location = Ohio Union
     title: "test-near",
+    start_time:Time.now,
+    end_time:Time.now+100,
+    event_tag_id:sportTagId,
     description: "lots of fun!",
     person_count_cap:10,
     user_id:billy.id,
@@ -29,15 +38,12 @@ Event.create!( #nearby event, location = Ohio Union
 
 Event.create!( #far away event 
     title: "test-far",
+    start_time:Time.now,
+    end_time:Time.now+100,
+    event_tag_id:sportTagId,
     description: "lots of fun!",
     person_count_cap:10,
     user_id:billy.id,
     latitude: 0,
     longitude:0
     )
-
-EventTag.create!(tag_name:"Sports")
-EventTag.create!(tag_name:"Academic")
-EventTag.create!(tag_name:"Entertainment")
-EventTag.create!(tag_name:"Promotional")
-EventTag.create!(tag_name:"Casual")
