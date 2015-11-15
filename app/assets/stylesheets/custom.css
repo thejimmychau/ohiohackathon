@@ -6,3 +6,18 @@
 body {
 	padding-top: 50px;
 }
+
+.all_events td {
+	border: 1px solid black;
+	padding: 2px;
+}
+
+.all_events td {
+	border: 1px solid black;
+	padding: 2px;
+}
+
+.all_events th {
+	border: 1px solid black;
+	padding: 5px;
+}
