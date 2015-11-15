@@ -9,12 +9,17 @@ class EventsController < ApplicationController
     end
     
     def similar_events
-        events = current_user.events #events user created
+        events = current_user.events #events user created and have finished in past
+        events = events.where("end_time < ?",DateTime.now)
         
-        friends = Event.where(id:events.pluck(:id) ).pluck(:user_id)#people that attended events user hosted
-        sim_events = Event.where(user_id:friends.pluck(:id))#events that friends hosted
+        friends = Attend.where(event_id: events.pluck(:id))#people that attended events user hosted
+        sim_events = Event.where(user_id:friends.pluck(:user_id))#events that friends hosted
         
-        return sim_events
+        respond_to do |format|
+            format.json { 
+                render json: sim_events
+            } 
+        end
     end
     
     def find_nearby_events

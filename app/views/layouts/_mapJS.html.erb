@@ -38,9 +38,22 @@ function find_nearby_events(latitude,longitude,radius,tag,time_range,address){
     }).done(function (data) {
         drop_event_pins(data);
     }).fail(function (data) {
-        console.log('AJAX request has FAILED');
+        console.log('Nearby Events: AJAX request has FAILED');
     });
 }
+    
+    function find_similar_events(){
+        var request = "/events/similar_events"
+        var aj = $.ajax({
+            url: request,
+            type: 'get',
+            data: $(this).serialize()
+        }).done(function (data) {
+            drop_event_pins(data,"http://i.imgur.com/z2h3rtO.png");
+        }).fail(function (data) {
+            console.log('Similar Events: AJAX request has FAILED (Are you logged in?)');
+        });        
+    }
 
 //automatically fed parameter if getCurrentPosition works out
 //ALSO shows nearby event positions, drops pins for them
@@ -49,7 +62,7 @@ function show_user_position(position) {
     var googlePos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     userPos = position;
     var mapOptions = {
-                zoom : 12,
+                zoom : 16,
                 center : googlePos,
                 mapTypeId : google.maps.MapTypeId.ROADMAP
             };
@@ -89,7 +102,9 @@ function show_user_position(position) {
             }
         });
     
-    var events = find_nearby_events(position.coords.latitude,position.coords.longitude)
+    find_nearby_events(position.coords.latitude,position.coords.longitude)
+    find_similar_events()
+
 }
 
 function showError(error) {
@@ -113,8 +128,13 @@ function showError(error) {
 //need to call this to place the pins, call as needed
 //creates event pin based on long and latitude and drops onto map
 //pushes into pin array
-function drop_event_pins(events_array)
+function drop_event_pins(events_array,pin_pic_url)
 {
+    var isRecommendationPin = true;
+    if(typeof pin_pic_url === 'undefined'){
+        pin_pic_url = "";
+        isRecommendationPin = false;
+    }
 	for(var i = 0; i< events_array.length; i++)
 	{
 		var googlePos = new google.maps.LatLng(events_array[i].latitude, events_array[i].longitude);
@@ -122,7 +142,8 @@ function drop_event_pins(events_array)
 				map : googleMap,
 				position : googlePos,
 				title : events_array[i].title,
-				animation : google.maps.Animation.DROP
+				animation : google.maps.Animation.DROP,
+	            icon: pin_pic_url
 			};
 		//this adds it to the map as a marker and shows it
 		//to just create it, put the options into the array and then make as needed
@@ -135,7 +156,12 @@ function drop_event_pins(events_array)
         var sTime = parseTimeStr(events_array[i].start_time);
         var endTime = parseTimeStr(events_array[i].end_time);
 
-		var info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + sTime +'<br>'+ ' Ends: ' + date_end + ' ' + endTime + '<br>'+'</p><br>'+attendBtnHTML(events_array[i])+'</div>';
+        var info;
+        if(!isRecommendationPin){
+            info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + sTime +'<br>'+ ' Ends: ' + date_end + ' ' + endTime + '<br>'+'</p><br>'+attendBtnHTML(events_array[i])+'</div>';
+        }else{
+            info = "Recommended spot based upon your patterns and the patterns of the people you host!"
+        }
 
 		//info window
 		var infowindow = new google.maps.InfoWindow({
