@@ -8,7 +8,7 @@
 
 <div id="filter">
   <form id="frm1" action="form_action.asp">
-    Origin Address: <input type="text" id="address" class="form-control" onchange="grab_values()"><br>
+    Origin Address: <input type="text" id="address" class="form-control" onchange="grab_values();update_map_center()"><br>
     Radius: <input type="number" min="0" step="1" id="radius" class="form-control" onchange="grab_values()"><br>
     <!-- Tag -->
     <select id="tag" class="form-control" onchange="grab_values()">
