@@ -253,9 +253,15 @@ function resize_map() {
 
 //function to grab input fields and filter pins accordingly
 function grab_values() {
-    var address = document.getElementByName("address").value;
-    var radius = document.getElementByName("radius").value;
-    var time = document.getElementByName("time").value;	
+    //should be ids, unique
+    var address = document.getElementsByName("address").value;
+    var radius = document.getElementsByName("radius").value;
+    var time = document.getElementsByName("time").value;
+  
+    //deal with tag drop down
+    var options_list = document.getElementByName("tag");
+    var tag = options_list.options[options_list.selectedIndex].value;
+ 	
     find_nearby_events(userPos.coords.latitude,userPos.coords.longitude,radius,tag,time,address);
 }
 
