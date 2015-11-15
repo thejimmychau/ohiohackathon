@@ -9,10 +9,13 @@ class EventsController < ApplicationController
     end
     
     def similar_events
-        created_events = current_user.events
-        attended_events = Attend.where("user_id == ?",current_user.id)
+        events = current_user.events #created events
+        events < Event.where(id:Attend.where(user_id:current_user.id).pluck(:event_id)) #attended events
         
+        similar_users = Event.where(id:events.pluck(:id) ).pluck(:user_id)
+        sim_events = Event.where(id:Attend.where(user_id:similar_users).pluck(:event_id))
         
+        return sim_events
     end
     
     def find_nearby_events
