@@ -48,7 +48,7 @@ for i in 0..20
         state: "Ohio",
         city: "Columbus",
         zip_code:43221,
-        latitude: coordinates.latitude,
+        latitude:coordinates.latitude,
         longitude:coordinates.longitude
         )
 end
@@ -73,7 +73,7 @@ for i in 0..20
         state: "Ohio",
         city: "Columbus",
         zip_code:43221,
-        latitude: coordinates.latitude,
+        latitude:coordinates.latitude,
         longitude:coordinates.longitude
         )
 end
@@ -97,7 +97,7 @@ for i in 0..20
         state: "Ohio",
         city: "Columbus",
         zip_code:43221,
-        latitude: coordinates.latitude,
+        latitude:coordinates.latitude,
         longitude:coordinates.longitude
         )
 end

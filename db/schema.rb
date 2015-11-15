@@ -16,14 +16,14 @@ ActiveRecord::Schema.define(version: 20151115012355) do
   create_table "attends", force: :cascade do |t|
     t.integer  "user_id",    null: false
     t.integer  "event_id",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "event_tags", force: :cascade do |t|
     t.string   "tag_name",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "events", force: :cascade do |t|
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20151115012355) do
     t.string   "title",                                      null: false
     t.string   "description",                                null: false
     t.integer  "person_count_cap",                           null: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: :cascade do |t|
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 20151115012355) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

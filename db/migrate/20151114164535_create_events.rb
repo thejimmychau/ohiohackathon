@@ -19,7 +19,7 @@ class CreateEvents < ActiveRecord::Migration
       t.string :title, null:false
       t.string :description, null:false
       t.integer :person_count_cap, null:false
-      t.timestamps null: false
+      t.timestamps
     end
   end
 end
