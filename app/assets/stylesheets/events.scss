@@ -37,6 +37,11 @@
 }
 
 .all_events th {
+    text-align: center;
     border: 1px solid black;
     padding: 5px;
+}
+
+.filter li {
+    display: inline;
 }
