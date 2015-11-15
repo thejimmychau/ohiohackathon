@@ -28,3 +28,12 @@ header{
     background-color: #ccc;
     
 }
+
+.actions .btn {
+	margin-top: 5px;
+	display: inline;
+}
+
+body {
+	padding-top: 50px;
+}
