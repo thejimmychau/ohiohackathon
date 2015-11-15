@@ -160,7 +160,7 @@ function drop_event_pins(events_array,pin_pic_url)
         if(!isRecommendationPin){
             info = '<div id="content">'+'<h1>'+ events_array[i].title + '</h1>' + '<p>'+ events_array[i].address + '<br>'+ events_array[i].description + '<br>' + ' Starts: ' + date_start + ' ' + sTime +'<br>'+ ' Ends: ' + date_end + ' ' + endTime + '<br>'+'</p><br>'+attendBtnHTML(events_array[i])+'</div>';
         }else{
-            info = "Recommended spot based upon your patterns and the patterns of the people you host!<br>"+events_array[i].address;
+            info = "We've noticed that your friends like to hang out here, maybe you will too!<br>"+events_array[i].address;
         }
 
 		//info window
@@ -209,10 +209,14 @@ function attendBtnHTML(event_id){
         attend_option = "Please Log-in to attend an event"
     }else{
         //user is logged in, thus current_user will never be nil. Must check though in order for erb to compile!
-        var userIds = <%= (current_user!=nil) ? current_user.events.pluck(:id) : [] %>
+        var userHostedEventIds = <%= (current_user!=nil) ? current_user.events.pluck(:id) : [] %>;
+        var eventsUserIsAttendingIds = <%= (current_user!=nil) ? Attend.where(user_id:current_user.id).pluck(:event_id) : [] %>;
 
-        if( userIds.indexOf(event_id) > -1 ){
+
+        if( userHostedEventIds.indexOf(event_id) > -1 ){
             attend_option = "This is your event";
+        }else if(eventsUserIsAttendingIds.indexOf(event_id) > -1){
+            attend_option = "You are already attending this event";
         }else{
            var action_url = '<%= create_attend_relation_events_path %>'+'?user='+
                <%= (current_user!=nil) ? current_user.id : -1 %>
