@@ -6,7 +6,9 @@ class EventsController < ApplicationController
         lat = params[:latitude]
         lng = params[:longitude]
         
-        events = Event.within(5,:origin=>[lat,lng])
+	#date time +1  = 1 day advance
+	# all events [now,day from now]
+        events = Event.within(5,:origin=>[lat,lng]).where("end_time < ?", DateTime.now + 1).where("end_time > ?", DateTime.now)
         
         respond_to do |format|
             format.json { 
