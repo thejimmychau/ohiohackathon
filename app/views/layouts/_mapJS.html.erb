@@ -258,15 +258,12 @@ function resize_map() {
 
 //function to grab input fields and filter pins accordingly
 function grab_values() {
-    //should be ids, unique
-    var address = document.getElementsByName("address").value;
-    var radius = document.getElementsByName("radius").value;
-    var time = document.getElementsByName("time").value;
+    var address = $("#address").val();
+    var radius = $("#radius").val();
+    var time = $("#time").val();
   
     //deal with tag drop down
-    var options_list = document.getElementsByName("tag")[0];
-    var tag = options_list.options[options_list.selectedIndex].value;
- 	
+    var selected_tag_id = $("#tag").find(":selected").val();
     find_nearby_events(userPos.coords.latitude,userPos.coords.longitude,radius,tag,time,address);
 }
 
